@@ -5830,6 +5830,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const fs = __importStar(__nccwpck_require__(7147));
 const core = __importStar(__nccwpck_require__(2186));
@@ -5839,13 +5840,18 @@ try {
     if (!wsDir) {
         throw new Error('Workspace directory is not set');
     }
+    const BIT_CLOUD_ACCESS_TOKEN = core.getInput('BIT_CLOUD_ACCESS_TOKEN');
+    process.env.BIT_CONFIG_USER_TOKEN =
+        (_a = process.env.BIT_CLOUD_ACCESS_TOKEN) !== null && _a !== void 0 ? _a : core.getInput('BIT_CONFIG_USER_TOKEN');
     if (!process.env.BIT_CLOUD_ACCESS_TOKEN &&
+        !BIT_CLOUD_ACCESS_TOKEN &&
         !process.env.BIT_CONFIG_USER_TOKEN) {
         // Keeping backward compatibility for BIT_CONFIG_USER_TOKEN
         throw new Error('BIT_CLOUD_ACCESS_TOKEN environment variable is not set!');
     }
     else if (!process.env.BIT_CONFIG_USER_TOKEN) {
-        process.env.BIT_CONFIG_USER_TOKEN = process.env.BIT_CLOUD_ACCESS_TOKEN;
+        process.env.BIT_CONFIG_USER_TOKEN =
+            (_b = process.env.BIT_CLOUD_ACCESS_TOKEN) !== null && _b !== void 0 ? _b : BIT_CLOUD_ACCESS_TOKEN;
     }
     // eslint-disable-next-line github/no-then
     (0, init_1.default)(wsDir).then(() => {
@@ -5925,7 +5931,7 @@ const exec_1 = __nccwpck_require__(1514);
  *
  */
 const run = (wsdir) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d;
     const wsDirPath = path.resolve(wsdir);
     // sets wsdir env for dependent tasks usage
     process.env.WSDIR = wsdir;
@@ -5933,9 +5939,7 @@ const run = (wsdir) => __awaiter(void 0, void 0, void 0, function* () {
         (_a = process.env.GIT_USER_NAME) !== null && _a !== void 0 ? _a : core_1.default.getInput('GIT_USER_NAME');
     process.env.GIT_USER_EMAIL =
         (_b = process.env.GIT_USER_EMAIL) !== null && _b !== void 0 ? _b : core_1.default.getInput('GIT_USER_EMAIL');
-    process.env.BIT_CLOUD_ACCESS_TOKEN =
-        (_c = process.env.BIT_CLOUD_ACCESS_TOKEN) !== null && _c !== void 0 ? _c : core_1.default.getInput('BIT_CLOUD_ACCESS_TOKEN');
-    process.env.GITHUB_TOKEN = (_d = process.env.GITHUB_TOKEN) !== null && _d !== void 0 ? _d : core_1.default.getInput('token');
+    process.env.GITHUB_TOKEN = (_c = process.env.GITHUB_TOKEN) !== null && _c !== void 0 ? _c : core_1.default.getInput('token');
     const wsFile = path.join(wsDirPath, 'workspace.jsonc');
     const workspace = fs.readFileSync(wsFile).toString();
     // sets org and scope env for dependent tasks usage
@@ -5945,7 +5949,7 @@ const run = (wsdir) => __awaiter(void 0, void 0, void 0, function* () {
     process.env.ORG = Org;
     process.env.SCOPE = Scope;
     // install bvm and bit
-    const bitEngineVersion = ((_e = workspaceObject['teambit.harmony/bit']) === null || _e === void 0 ? void 0 : _e.engine) || '';
+    const bitEngineVersion = ((_d = workspaceObject['teambit.harmony/bit']) === null || _d === void 0 ? void 0 : _d.engine) || '';
     yield (0, exec_1.exec)('npm i -g @teambit/bvm');
     yield (0, exec_1.exec)(`bvm install ${bitEngineVersion} --use-system-node`);
     // sets path for current step
