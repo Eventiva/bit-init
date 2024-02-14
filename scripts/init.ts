@@ -1,7 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import * as jsoncParser from 'jsonc-parser'
-import core from '@actions/core'
 import { exec } from '@actions/exec'
 
 /**
@@ -12,11 +11,6 @@ const run = async (wsdir: string): Promise<void> => {
 
   // sets wsdir env for dependent tasks usage
   process.env.WSDIR = wsdir
-  process.env.GIT_USER_NAME =
-    process.env.GIT_USER_NAME ?? core.getInput('GIT_USER_NAME')
-  process.env.GIT_USER_EMAIL =
-    process.env.GIT_USER_EMAIL ?? core.getInput('GIT_USER_EMAIL')
-  process.env.GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? core.getInput('token')
 
   const wsFile = path.join(wsDirPath, 'workspace.jsonc')
   const workspace = fs.readFileSync(wsFile).toString()
