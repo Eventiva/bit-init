@@ -5830,7 +5830,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b;
+var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const fs = __importStar(__nccwpck_require__(7147));
 const core = __importStar(__nccwpck_require__(2186));
@@ -5841,17 +5841,17 @@ try {
         throw new Error('Workspace directory is not set');
     }
     const BIT_CLOUD_ACCESS_TOKEN = core.getInput('BIT_CLOUD_ACCESS_TOKEN');
-    process.env.BIT_CONFIG_USER_TOKEN =
-        (_a = process.env.BIT_CLOUD_ACCESS_TOKEN) !== null && _a !== void 0 ? _a : core.getInput('BIT_CONFIG_USER_TOKEN');
+    const BIT_CONFIG_USER_TOKEN = core.getInput('BIT_CONFIG_USER_TOKEN');
     if (!process.env.BIT_CLOUD_ACCESS_TOKEN &&
         !BIT_CLOUD_ACCESS_TOKEN &&
+        !BIT_CONFIG_USER_TOKEN &&
         !process.env.BIT_CONFIG_USER_TOKEN) {
         // Keeping backward compatibility for BIT_CONFIG_USER_TOKEN
         throw new Error('BIT_CLOUD_ACCESS_TOKEN environment variable is not set!');
     }
     else if (!process.env.BIT_CONFIG_USER_TOKEN) {
         process.env.BIT_CONFIG_USER_TOKEN =
-            (_b = process.env.BIT_CLOUD_ACCESS_TOKEN) !== null && _b !== void 0 ? _b : BIT_CLOUD_ACCESS_TOKEN;
+            (_a = BIT_CONFIG_USER_TOKEN !== null && BIT_CONFIG_USER_TOKEN !== void 0 ? BIT_CONFIG_USER_TOKEN : process.env.BIT_CLOUD_ACCESS_TOKEN) !== null && _a !== void 0 ? _a : BIT_CLOUD_ACCESS_TOKEN;
     }
     // eslint-disable-next-line github/no-then
     (0, init_1.default)(wsDir).then(() => {
