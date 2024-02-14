@@ -16,9 +16,6 @@ const run = async (wsdir: string): Promise<void> => {
     process.env.GIT_USER_NAME ?? core.getInput('GIT_USER_NAME')
   process.env.GIT_USER_EMAIL =
     process.env.GIT_USER_EMAIL ?? core.getInput('GIT_USER_EMAIL')
-  process.env.BIT_CLOUD_ACCESS_TOKEN =
-    process.env.BIT_CLOUD_ACCESS_TOKEN ??
-    core.getInput('BIT_CLOUD_ACCESS_TOKEN')
   process.env.GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? core.getInput('token')
 
   const wsFile = path.join(wsDirPath, 'workspace.jsonc')

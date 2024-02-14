@@ -11,6 +11,9 @@ inputs:
   token:
     description: "Github token"
     required: false
+  BIT_CONFIG_USER_TOKEN:
+    description: "Bit config user token"
+    required: false
   BIT_CLOUD_ACCESS_TOKEN: 
     description: "Bit cloud access token"
     required: false
