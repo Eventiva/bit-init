@@ -4,28 +4,19 @@ import run from './scripts/init'
 
 try {
   const wsDir: string | undefined = process.env.WS_DIR
-  const BIT_CLOUD_ACCESS_TOKEN: string | undefined =
-    process.env.BIT_CLOUD_ACCESS_TOKEN
-  const BIT_CONFIG_USER_TOKEN: string | undefined =
-    process.env.BIT_CONFIG_USER_TOKEN
 
   if (!wsDir) {
     throw new Error('Workspace directory is not set')
   }
 
-  process.env.GIT_USER_NAME =
-    process.env.GIT_USER_NAME ?? core.getInput('GIT_USER_NAME')
-
-  process.env.GIT_USER_EMAIL =
-    process.env.GIT_USER_EMAIL ?? core.getInput('GIT_USER_EMAIL')
-
-  process.env.GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? core.getInput('token')
-
-  if (!BIT_CLOUD_ACCESS_TOKEN && !BIT_CONFIG_USER_TOKEN) {
+  if (
+    !process.env.BIT_CLOUD_ACCESS_TOKEN &&
+    !process.env.BIT_CONFIG_USER_TOKEN
+  ) {
     // Keeping backward compatibility for BIT_CONFIG_USER_TOKEN
     throw new Error('BIT_CLOUD_ACCESS_TOKEN environment variable is not set!')
-  } else if (!BIT_CONFIG_USER_TOKEN) {
-    process.env.BIT_CONFIG_USER_TOKEN = BIT_CLOUD_ACCESS_TOKEN
+  } else if (!process.env.BIT_CONFIG_USER_TOKEN) {
+    process.env.BIT_CONFIG_USER_TOKEN = process.env.BIT_CLOUD_ACCESS_TOKEN
   }
 
   // eslint-disable-next-line github/no-then
